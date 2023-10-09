@@ -56,28 +56,24 @@ namespace WpfAppKino0410.Pages
                         {
                             if (userList.Where(u => u.UserName.IsNullOrEmpty() == false).FirstOrDefault(u => u.UserName.ToLower() == LoginTextBox.Text.Trim().ToLower()) == null)
                             {
-                                if (PasswordRepeatTextBox.Password == PasswordTextBox.Password)
+                                if (PasswordTextBox.Password.Length>=8)
                                 {
                                     if (PasswordRepeatTextBox.Password == PasswordTextBox.Password)
                                     {
                                         try
                                         {
-                                            User newUser = new User() { UserName = LoginTextBox.Text.Trim(), Email = EmailTextBox.Text.Trim(), Password = PasswordTextBox.Password, RoleId = 1 };
+                                            User newUser = new User() { UserName = LoginTextBox.Text.Trim(), Email = EmailTextBox.Text.Trim(), Password = PasswordTextBox.Password, RoleId = 2 };
 
                                             CommonOperations commonOperations1 = new CommonOperations();
                                             var createdUser = await commonOperations1.AddEntityAsync(newUser);
                                             if (createdUser != null)
                                             {
                                                 MessageBox.Show("Регистрация успешна");
-                                                Current.cUser = newUser;
                                             }
                                             else
                                             {
                                                 throw new Exception();
                                             }
-                                            WorkWindow workWindow = new WorkWindow();
-                                            workWindow.Show();
-                                            ParentWindow.Close();
 
                                         }
                                         catch
