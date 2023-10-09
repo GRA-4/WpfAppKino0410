@@ -1,0 +1,30 @@
+﻿<Page x:Class="WpfAppKino0410.Pages.AuthPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfAppKino0410.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="250" d:DesignWidth="300"
+      Title="AuthPage">
+
+    <Grid>
+        <Grid>
+            <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center">
+                <TextBlock Style="{DynamicResource ResourceKey=Header}" >Авторизация</TextBlock>
+                <Separator/>
+                <TextBlock >Логин</TextBlock>
+                <TextBox x:Name="LoginTextBox"></TextBox>
+                <TextBlock x:Name="LogginIssueTextBlock"  Visibility="Hidden" Foreground="Red">Введите логин</TextBlock>
+                <TextBlock>Пароль</TextBlock>
+                <PasswordBox  x:Name="PasswordTextBox"/>
+                <TextBlock x:Name="PasswordIssueTextBlock" Visibility="Hidden" Foreground="Red">Введите пароль</TextBlock>
+                <TextBlock x:Name="AuthIssueTextBlock" Visibility="Hidden" Foreground="Red">Неверные данные</TextBlock>
+                <StackPanel>
+                    <Button x:Name="LoginButton" Click="LoginButton_Click">Войти</Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Page>

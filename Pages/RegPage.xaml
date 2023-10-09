@@ -1,0 +1,34 @@
+﻿<Page x:Class="WpfAppKino0410.Pages.RegPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfAppKino0410.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="250" d:DesignWidth="300"
+      Title="RegPage">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" Margin="1" VerticalAlignment="Center">
+            <TextBlock  Style="{DynamicResource ResourceKey=Header}" >Регистрация</TextBlock>
+            <Separator/>
+            <TextBlock >Логин</TextBlock>
+            <TextBox x:Name="LoginTextBox"></TextBox>
+            <TextBlock  x:Name="LoginIssueTextBlock"  Visibility="Visible" Foreground="Red">Введите другой логин</TextBlock>
+
+            <TextBlock >Почта</TextBlock>
+            <TextBox x:Name="EmailTextBox"></TextBox>
+            <TextBlock x:Name="EmailIssueTextBlock"  Visibility="Visible" Foreground="Red">Введите другой Email</TextBlock>
+            <TextBlock>Пароль</TextBlock>
+            <PasswordBox x:Name="PasswordTextBox"></PasswordBox>
+            <TextBlock x:Name="PasswordIssueTextBlock" Visibility="Visible" Foreground="Red">Введите другой пароль</TextBlock>
+            <TextBlock>Повторите пароль</TextBlock>
+            <PasswordBox x:Name="PasswordRepeatTextBox"></PasswordBox>
+            <TextBlock x:Name="PasswordRepeatIssueTextBlock" Visibility="Visible" Foreground="Red">Пароли не совпадают</TextBlock>
+            <StackPanel>
+                <Button x:Name="RegButton" Click="RegButton_Click">Зарегистрироваться</Button>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Page>

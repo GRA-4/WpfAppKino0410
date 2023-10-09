@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfAppKino0410.TitleDo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppKino0410"
+        mc:Ignorable="d"
+        Title="Тайтл" Height="580" Width="800" Closed="Window_Closed" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Name="ViewStackPanel">
+            <StackPanel Width="200" Margin="5,5">
+
+                <Image x:Name="ImageUrlImage" Height="200" Source="{Binding ImageUrl}"/>
+                <TextBox x:Name="ImageUrlTextBox" Margin="10" TextChanged="ImageUrlTextBox_TextChanged" />
+                <TextBox x:Name="NameTitleTextBox"  Margin="0,20"/>
+                <TextBox x:Name="GenresTextBox" Margin="0,20" IsEnabled="False"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,20">
+                    <ComboBox x:Name="GenresComboBox" DisplayMemberPath="GenreName"  Width="150"/>
+
+                    <Button x:Name="AddGenre" Content="+" Height="20" Width="20" Margin="2,0" Click="AddGenre_Click" />
+                    <Button x:Name="RemoveGenre" Content="-" Height="20" Width="20" Margin="2,0" Click="RemoveGenre_Click" />
+                </StackPanel>
+
+                <StackPanel>
+                    <Slider IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="1" Name="DateSlider" Margin="0,20" Width="180"/>
+                    <TextBlock x:Name="DateTextBlock" Text="{Binding ElementName=DateSlider, Path=Value, Mode=OneWay}" HorizontalAlignment="Center" />
+                </StackPanel>
+                
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBox x:Name="DescriptionTextBox" Height="430" Width="540" TextWrapping="WrapWithOverflow" Margin="10" HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+                    <Button x:Name="AcceptButton" FontSize="28" Content="✔" Height="40" Width="40" Click="AcceptButton_Click" />
+                    <Button x:Name="CancelButton" FontSize="30" Content="↩" Height="40" Width="40" Click="CancelButton_Click" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
