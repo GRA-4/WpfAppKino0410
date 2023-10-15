@@ -28,14 +28,18 @@
                     <TextBlock FontSize="48" FontWeight="Bold" Text="Kino"  Margin="0,0,0,0"/>
                     <TextBlock FontSize="48" FontWeight="Bold" Text="Rev" Foreground="#FFFF1F29"  />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,180,0" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,160,0" HorizontalAlignment="Center">
                     
                     <TextBox Width="600" FontSize="20" Margin="0,0,0,0" x:Name="SearchTextBox"/>
                     <Button Height="30" Width="30" Content="🔍" FontSize="20" x:Name="SearchButton" Click="SearchButton_Click"/>
                     <Button Height="30" Width="30" Content="🗘" FontSize="20" x:Name="RefreshButton" Click="RefreshButton_Click"/>
 
                 </StackPanel>
-                <Image Width="80" Height="80" Margin="10" Source="{Binding CurrentUser.ImageUrl}" />
+                <Ellipse Width="80" Height="80" Margin="10,10,30,10" >
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding CurrentUser.ImageUrl}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
             </StackPanel>
             <Border BorderThickness="2"   />
             <StackPanel Orientation="Horizontal">
@@ -81,9 +85,18 @@
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <EventSetter Event="MouseDoubleClick" Handler="TitlesListViewItem_MouseDoubleClick" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                             </ListView>
 
                         </TabItem.Content>
+                    
+                    
+                    
+                    
                     </TabItem>
 
                     <TabItem Name="FavesTabItem"  Height=" 60" Width="180" FontSize="36" Header="Faves">
@@ -207,7 +220,7 @@
                                 </StackPanel>
                                 <Border Margin="20" Height="5" />
                                 <Button Width="50" Height="50" Content="⚙" HorizontalAlignment="Left" Name="EditProfileButtom" />
-                                <Button Content="Log Out" HorizontalAlignment="Left" Name="LogOutButton" />
+                                <Button Content="Log Out" HorizontalAlignment="Left" Name="LogOutButton" Click="LogOutButton_Click" />
 
                             </StackPanel>
                         </TabItem.Content>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -32,8 +33,10 @@ namespace WpfAppKino0410
 
         private async void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            await Current.LoadAllAsync();
-            this.DataContext = new Current();
+            await Current.UpdateDataContextAsync(this);
+            //var current1 = new Current();
+            //await Current.InitializeAsync(Current.CurrentUser.Id);
+            //this.DataContext = new Current();
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -43,20 +46,26 @@ namespace WpfAppKino0410
             {
                 try
                 {
-                new Current();
+                    ////var current = new Current();
+                    await Current.InitializeAsync();
+                    //await Current.UpdateDataContextAsync(this);
                     var IETitles = Current.Titles
                         .Where(t =>
                             (t.TitleName != null && t.TitleName.Contains(query)) ||
-                            (t.TitleAdditionalName != null && t.TitleAdditionalName.Contains(query))
-                        );
+                            (t.TitleAdditionalName != null && t.TitleAdditionalName.Contains(query))||
+                            (t.Genres.Any(g => g.GenreName != null && g.GenreName.Contains(query))));
                     var IEFaves = Current.Faves
-                        .Where(t =>
-                        (t.Title.TitleName != null && t.Title.TitleName.Contains(query)) ||
-                        (t.Title.TitleAdditionalName != null && t.Title.TitleAdditionalName.Contains(query))
+                        .Where(f =>
+                        (f.Title.TitleName != null
+                         && f.Title.TitleName.Contains(query)) ||
+                        (f.Title.TitleAdditionalName != null && f.Title.TitleAdditionalName.Contains(query))||
+                        (f.Title.Genres.Any(g => g.GenreName != null && g.GenreName.Contains(query)))
                         );
 
                     var IEUsers = Current.Users
-                        .Where(u => u.UserName != null && u.UserName.Contains(query) == true);
+                        .Where(u => 
+                        (u.UserName != null && u.UserName.Contains(query) == true)||
+                        (u.Role.RoleName != null && u.Role.RoleName.Contains(query) == true));
 
                     var IEComments = Current.Comments
                         .Where(c =>
@@ -70,14 +79,20 @@ namespace WpfAppKino0410
                 Current.Faves = new ObservableCollection<FaveList>(IEFaves);
                 Current.Users = new ObservableCollection<User>(IEUsers);
                 Current.Comments = new ObservableCollection<Comment>(IEComments);
-                this.DataContext = new Current();
+                    var current1 = new Current();
+                    //await Current.InitializeAsync(Current.CurrentUser.Id);
+                    this.DataContext = current1;
+                    //await Current.UpdateDataContextAsync(this);
                 }
                 catch (Exception ex) { }
 
             }
             else
             {
-                this.DataContext = new Current();
+                //var current1 = new Current();
+                //await Current.InitializeAsync(Current.CurrentUser.Id);
+                //this.DataContext = current1;
+                await Current.UpdateDataContextAsync(this);
             }
 
         }
@@ -86,9 +101,38 @@ namespace WpfAppKino0410
         {
             Refresh();
         }
-        private void Refresh()
+        private async void Refresh()
         {
-            this.DataContext = new Current();
+            SearchTextBox.Clear();
+            //var current1 = new Current();
+            //await Current.InitializeAsync(Current.CurrentUser.Id);
+            //this.DataContext = current1;
+            await Current.UpdateDataContextAsync(this);
+        }
+
+
+
+
+
+
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Current.CurrentUser = new User();
+            this.Close();
+            
+        }
+
+        private void TitlesListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Title selectedTitle = TitlesListView.SelectedItem as Title;
+            if (selectedTitle != null)
+            {
+                TitleWindow titleWindow = new TitleWindow(this, selectedTitle.Id);
+                titleWindow.Show();
+                this.IsEnabled=false;
+            }
         }
     }
 }

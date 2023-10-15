@@ -10,9 +10,6 @@ namespace WpfAppKino0410.Pages
         public UserPage()
         {
             InitializeComponent();
-            UserNameTextBlock.Text = Current.cUser.UserName;
-            //UserRoleTextBlock.Text = Current.cUser.Role.RoleName;
-            UserEmailTextBlock.Text = Current.cUser.Email;
         }
 
     }

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WpfAppKino0410.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="250" d:DesignWidth="300"
-      Title="RegPage">
+      Title="RegPage" Style="{StaticResource MyPageStyle}">
 
     <Grid>
         <StackPanel HorizontalAlignment="Center" Margin="1" VerticalAlignment="Center">

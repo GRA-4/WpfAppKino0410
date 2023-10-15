@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,13 +46,13 @@ namespace WpfAppKino0410.Pages
             }
             else
             {
-                if (userToFind.UserName == null)
+                if ((userToFind.UserName == string.Empty)||(userToFind.UserName == null))
                 {
                     LogginIssueTextBlock.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    if (userToFind.Password == null)
+                    if ((userToFind.Password == string.Empty)||(userToFind.Password == null))
                     {
                         PasswordIssueTextBlock.Visibility = Visibility.Visible;
                     }
@@ -71,7 +72,8 @@ namespace WpfAppKino0410.Pages
                             if (foundUser.Password == userToFind.Password)
                             {
                                 MessageBox.Show("Авторизация успешна");
-                                Current.cUser = foundUser;
+                                await Current.InitializeAsync(foundUser.Id);
+                                MessageBox.Show(Current.CurrentUser.UserName);
                                 WorkWindowNew workWindow = new WorkWindowNew();
                                 workWindow.Show();
                                 ParentWindow.Close();
@@ -87,5 +89,19 @@ namespace WpfAppKino0410.Pages
                 }
             }
         }
+
+        static bool IsValidString(string input)
+        {
+            // Проверяем длину строки
+            if (input.Length < 4 || input.Length > 24)
+            {
+                return false;
+            }
+
+            // Используем регулярное выражение для проверки символов
+            string pattern = @"^[a-zA-Z0-9\-_\.@]+$";
+            return Regex.IsMatch(input, pattern);
+        }
+
     }
 }
