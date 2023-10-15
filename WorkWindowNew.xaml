@@ -1,0 +1,235 @@
+﻿<Window x:Class="WpfAppKino0410.WorkWindowNew"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppKino0410" xmlns:pages="clr-namespace:WpfAppKino0410.Pages"
+        mc:Ignorable="d"
+        Title="WorkWindowNew" Height="610" Width="1150" Style="{StaticResource MyWindowStyle}">
+
+    <Window.DataContext>
+        <local:Current/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <Grid VerticalAlignment="Top">
+        <StackPanel>
+           
+            <StackPanel Height="100" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
+                    <TextBlock FontSize="48" FontWeight="Bold" Text="Kino"  Margin="0,0,0,0"/>
+                    <TextBlock FontSize="48" FontWeight="Bold" Text="Rev" Foreground="#FFFF1F29"  />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,180,0" HorizontalAlignment="Center">
+                    
+                    <TextBox Width="600" FontSize="20" Margin="0,0,0,0"/>
+                    <Button Height="30" Width="30" Content="🔍" FontSize="20" x:Name="SearchButton" Click="SearchButton_Click"/>
+                    <Button Height="30" Width="30" Content="🗘" FontSize="20" x:Name="RefreshButton" Click="RefreshButton_Click"/>
+
+                </StackPanel>
+                <Image Width="80" Height="80" Margin="10" Source="{Binding CurrentUser.ImageUrl}" />
+            </StackPanel>
+            <Border BorderThickness="2"   />
+            <StackPanel Orientation="Horizontal">
+                <TabControl Height="450" Width="1090" Margin="5" TabStripPlacement="Left" x:Name="WorkTabControl" IsSynchronizedWithCurrentItem="False" >
+
+                    <TabItem  Name="TitleTabItem" Height=" 60" Width="180" FontSize="36" Header="Titles" > 
+                        
+                        <TabItem.Content>
+                            <ListView x:Name="TitlesListView" ItemsSource="{Binding Titles}" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="2" Height="130">
+                                            <Image Width="130" Source="{Binding ImageUrl}" />
+                                            <StackPanel Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="36"  Text="{Binding TitleName}" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Comments.Count}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20"  Text="💬" VerticalAlignment="Center" />
+                                                    
+                                                </StackPanel>
+                                                <TextBlock FontSize="20"  Text="{Binding TitleAdditionalName}" />
+                                                <TextBlock FontSize="20"  Text="{Binding Date}" />
+                                                <ListView ItemsSource="{Binding Genres}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" BorderBrush="{x:Null}" x:Name="TitlesGenresListView">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock FontSize="20" Text="{Binding GenreName}" />
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                            
+                                                        
+                                                        
+                                                    </ListView.ItemTemplate>
+                                                    <ListView.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"></StackPanel>
+                                                        </ItemsPanelTemplate>
+                                                    </ListView.ItemsPanel>
+                                                </ListView>
+
+                                            </StackPanel>
+                                            
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </TabItem.Content>
+                    </TabItem>
+
+                    <TabItem Name="FavesTabItem"  Height=" 60" Width="180" FontSize="36" Header="Faves">
+                        <TabItem.Content>
+                            <ListView x:Name="FavesListView" ItemsSource="{Binding Faves}" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="2" Height="130">
+                                            <Image Width="130" Source="{Binding Title.ImageUrl}" />
+                                            <StackPanel Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="36"  Text="{Binding Title.TitleName}" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Title.Comments.Count}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20"  Text="💬" VerticalAlignment="Center" />
+
+                                                </StackPanel>
+                                                <TextBlock FontSize="20"  Text="{Binding Title.TitleAdditionalName}" />
+                                                <TextBlock FontSize="20"  Text="{Binding Title.Date}" />
+                                                <ListView ItemsSource="{Binding Title.Genres}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" BorderBrush="{x:Null}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock FontSize="20" Text="{Binding GenreName}" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+
+
+
+                                                    </ListView.ItemTemplate>
+                                                    <ListView.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"></StackPanel>
+                                                        </ItemsPanelTemplate>
+                                                    </ListView.ItemsPanel>
+                                                </ListView>
+
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </TabItem.Content>
+
+                    </TabItem>
+                    <TabItem Name="ListTabItem"   Height=" 60" Width="180"  FontSize="36" Header="Users">
+                        <TabItem.Content>
+                            <ListView x:Name="UsersListView" ItemsSource="{Binding Users}" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="2" Height="130">
+                                            <Image Width="130" Source="{Binding ImageUrl}" />
+                                            <StackPanel Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="36"  Text="{Binding UserName}" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Comments.Count}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20"  Text="💬" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Votes.Count}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20"  Text="↕" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding FaveLists.Count}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20"  Text="♥" VerticalAlignment="Center" />
+
+                                                </StackPanel>
+                                                <TextBlock FontSize="20"  Text="{Binding Role.RoleName}" />
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </TabItem.Content>
+
+                    </TabItem>
+                    <TabItem Name="UserTabItem"   Height=" 60" Width="180" FontSize="36" Header="Comments">
+                        <TabItem.Content>
+                            <ListView x:Name="CommentsListView" ItemsSource="{Binding Comments}" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="2" Height="130">
+                                            <Image Width="130" Source="{Binding User.ImageUrl}" />
+                                            <StackPanel Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="36"  Text="{Binding User.UserName}" x:Name="CommentUserTextBlock" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Date}" VerticalAlignment="Center" />
+                                                    <TextBlock FontSize="20" Margin="25,0,5,0"  Text="⟶" VerticalAlignment="Center" />
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock FontSize="20" Margin="25,0,5,0" Text="{Binding Title.TitleName}" VerticalAlignment="Center" x:Name="CommentedTitleNameTextBlock"/>
+                                                        <Image Source="{Binding Title.ImageUrl}" Width="40" Height="40" />
+                                                    </StackPanel>
+
+                                                </StackPanel>
+                                                <TextBlock FontSize="20"  Text="{Binding TextContent}" />
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </TabItem.Content>
+
+                    </TabItem>
+                    <TabItem Name="PeofileTabItem"   Height=" 60" Width="180" FontSize="36" Header="Profile">
+                        <TabItem.Content>
+                            <StackPanel Margin="5">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <Image Height="220" Width="220" Source="{Binding CurrentUser.ImageUrl}" />
+                                    <StackPanel Margin="25, 0,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="36" Text="{Binding CurrentUser.UserName}" />
+                                            <TextBlock FontSize="36" Text="#" Margin="25,0,0,0" />
+                                            <TextBlock FontSize="36" Text="{Binding CurrentUser.Id}" />
+
+                                        </StackPanel>
+                                        <TextBlock FontSize="20" Text="{Binding CurrentUser.Role.RoleName}" />
+                                        
+                                    </StackPanel>
+                                    
+                                </StackPanel>
+                                <Border Margin="20" Height="5" />
+                                <Button Width="50" Height="50" Content="⚙" HorizontalAlignment="Left" Name="EditProfileButtom" />
+                                <Button Content="Log Out" HorizontalAlignment="Left" Name="LogOutButton" />
+
+                            </StackPanel>
+                        </TabItem.Content>
+                    </TabItem>
+
+                    <TabItem Name="InfoTabItem"  Height=" 60" Width="180"  FontSize="36" Header="ФФффф">
+                        <TabItem.Content>
+                            <StackPanel Margin="30">
+                                <StackPanel Height="150" HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <Image Width="130" Height="130" Source="https://sun9-19.userapi.com/impf/c626625/v626625016/1f317/QI124jomysE.jpg?size=480x360&amp;quality=96&amp;sign=8bec0f42efea8d11a54cef7d5774eb1d&amp;type=album"  Margin="5"/>
+                                    <TextBlock Text="Абдуллов Булат"  Margin="10, 20" />
+                                </StackPanel>
+                                <StackPanel Height="150" HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <Image Width="130" Height="130" Source="https://sun9-32.userapi.com/impg/EbL67w4t2OMEqBo5rnAO2jiwKoQjBxRfzceXtA/W_uDxBVMRjc.jpg?size=400x400&amp;quality=96&amp;sign=bb518b17ca8b41065e6eb728bdf8be0c&amp;type=album"  Margin="5"/>
+                                    <TextBlock Text="Женя Стрелкова"  Margin="10, 20" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </TabItem.Content>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

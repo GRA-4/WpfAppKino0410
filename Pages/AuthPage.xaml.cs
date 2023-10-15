@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WebApplicationKinoAPI0510;
+using WebApplicationKinoAPI0510.Additional;
 
 namespace WpfAppKino0410.Pages
 {
@@ -71,7 +72,7 @@ namespace WpfAppKino0410.Pages
                             {
                                 MessageBox.Show("Авторизация успешна");
                                 Current.cUser = foundUser;
-                                WorkWindow workWindow = new WorkWindow();
+                                WorkWindowNew workWindow = new WorkWindowNew();
                                 workWindow.Show();
                                 ParentWindow.Close();
                             }

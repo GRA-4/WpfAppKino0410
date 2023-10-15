@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WebApplicationKinoAPI0510;
+using WebApplicationKinoAPI0510.Additional;
 
 namespace WpfAppKino0410.Pages
 {
