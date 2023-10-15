@@ -27,11 +27,58 @@ namespace WpfAppKino0410
         public WorkWindowNew()
         {
             InitializeComponent();
-            Refresh();
+            Loaded += OnWindowLoaded;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private async void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
+            await Current.LoadAllAsync();
+            this.DataContext = new Current();
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string query = SearchTextBox.Text;
+            if(query != string.Empty)
+            {
+                try
+                {
+                new Current();
+                    var IETitles = Current.Titles
+                        .Where(t =>
+                            (t.TitleName != null && t.TitleName.Contains(query)) ||
+                            (t.TitleAdditionalName != null && t.TitleAdditionalName.Contains(query))
+                        );
+                    var IEFaves = Current.Faves
+                        .Where(t =>
+                        (t.Title.TitleName != null && t.Title.TitleName.Contains(query)) ||
+                        (t.Title.TitleAdditionalName != null && t.Title.TitleAdditionalName.Contains(query))
+                        );
+
+                    var IEUsers = Current.Users
+                        .Where(u => u.UserName != null && u.UserName.Contains(query) == true);
+
+                    var IEComments = Current.Comments
+                        .Where(c =>
+                            (c.TextContent != null && c.TextContent.Contains(query)) ||
+                            (c.User.UserName != null && c.User.UserName.Contains(query)) ||
+                            (c.Title.TitleName != null && c.Title.TitleName.Contains(query)) ||
+                            (c.Title.TitleAdditionalName != null && c.Title.TitleAdditionalName.Contains(query))
+                        );
+                    
+                Current.Titles = new ObservableCollection<Title>(IETitles);
+                Current.Faves = new ObservableCollection<FaveList>(IEFaves);
+                Current.Users = new ObservableCollection<User>(IEUsers);
+                Current.Comments = new ObservableCollection<Comment>(IEComments);
+                this.DataContext = new Current();
+                }
+                catch (Exception ex) { }
+
+            }
+            else
+            {
+                this.DataContext = new Current();
+            }
 
         }
 

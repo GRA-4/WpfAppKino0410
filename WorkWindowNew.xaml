@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="WorkWindowNew" Height="610" Width="1150" Style="{StaticResource MyWindowStyle}">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:Current/>
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <Window.Resources>
         <ResourceDictionary>
@@ -30,7 +30,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,180,0" HorizontalAlignment="Center">
                     
-                    <TextBox Width="600" FontSize="20" Margin="0,0,0,0"/>
+                    <TextBox Width="600" FontSize="20" Margin="0,0,0,0" x:Name="SearchTextBox"/>
                     <Button Height="30" Width="30" Content="🔍" FontSize="20" x:Name="SearchButton" Click="SearchButton_Click"/>
                     <Button Height="30" Width="30" Content="🗘" FontSize="20" x:Name="RefreshButton" Click="RefreshButton_Click"/>
 

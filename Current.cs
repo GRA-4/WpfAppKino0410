@@ -22,7 +22,14 @@ namespace WpfAppKino0410
 
         public Current()
         {
-            var s = LoadAllAsync();
+            InitializeAsync();
+        }
+
+
+        private async void InitializeAsync()
+        {
+            await LoadAllAsync();
+            // Здесь можно выполнять какие-либо дополнительные действия после загрузки данных
         }
 
 
