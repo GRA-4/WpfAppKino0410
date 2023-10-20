@@ -73,9 +73,9 @@ namespace WpfAppKino0410
                             (c.User.UserName != null && c.User.UserName.Contains(query)) ||
                             (c.Title.TitleName != null && c.Title.TitleName.Contains(query)) ||
                             (c.Title.TitleAdditionalName != null && c.Title.TitleAdditionalName.Contains(query))
-                        );
-                    
-                Current.Titles = new ObservableCollection<Title>(IETitles);
+                        ).OrderByDescending(c => c.Date);
+
+                    Current.Titles = new ObservableCollection<Title>(IETitles);
                 Current.Faves = new ObservableCollection<FaveList>(IEFaves);
                 Current.Users = new ObservableCollection<User>(IEUsers);
                 Current.Comments = new ObservableCollection<Comment>(IEComments);

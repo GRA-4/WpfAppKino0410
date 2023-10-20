@@ -14,10 +14,10 @@
                 <TextBlock Style="{DynamicResource ResourceKey=Header}" >Авторизация</TextBlock>
                 <Separator/>
                 <TextBlock >Логин</TextBlock>
-                <TextBox x:Name="LoginTextBox"></TextBox>
+                <TextBox Text="UserUser" x:Name="LoginTextBox"></TextBox>
                 <TextBlock x:Name="LogginIssueTextBlock"  Visibility="Hidden" Foreground="Red">Введите логин</TextBlock>
                 <TextBlock>Пароль</TextBlock>
-                <PasswordBox  x:Name="PasswordTextBox"/>
+                <PasswordBox Password="1"  x:Name="PasswordTextBox"/>
                 <TextBlock x:Name="PasswordIssueTextBlock" Visibility="Hidden" Foreground="Red">Введите пароль</TextBlock>
                 <TextBlock x:Name="AuthIssueTextBlock" Visibility="Hidden" Foreground="Red">Неверные данные</TextBlock>
                 <StackPanel>

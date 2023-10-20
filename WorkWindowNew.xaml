@@ -143,7 +143,7 @@
                         </TabItem.Content>
 
                     </TabItem>
-                    <TabItem Name="ListTabItem"   Height=" 60" Width="180"  FontSize="36" Header="Users">
+                    <TabItem Name="UsersTabItem"   Height=" 60" Width="180"  FontSize="36" Header="Users">
                         <TabItem.Content>
                             <ListView x:Name="UsersListView" ItemsSource="{Binding Users}" Background="Transparent">
                                 <ListView.ItemTemplate>
@@ -172,7 +172,7 @@
                         </TabItem.Content>
 
                     </TabItem>
-                    <TabItem Name="UserTabItem"   Height=" 60" Width="180" FontSize="36" Header="Comments">
+                    <TabItem Name="CommentsTabItem"   Height=" 60" Width="180" FontSize="36" Header="Comments">
                         <TabItem.Content>
                             <ListView x:Name="CommentsListView" ItemsSource="{Binding Comments}" Background="Transparent">
                                 <ListView.ItemTemplate>
@@ -201,7 +201,7 @@
                         </TabItem.Content>
 
                     </TabItem>
-                    <TabItem Name="PeofileTabItem"   Height=" 60" Width="180" FontSize="36" Header="Profile">
+                    <TabItem Name="ProfileTabItem"   Height=" 60" Width="180" FontSize="36" Header="Profile">
                         <TabItem.Content>
                             <StackPanel Margin="5">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
