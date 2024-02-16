@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApplication0510\WebApplicationKinoAPI0510.csproj" />
+    <ProjectReference Include="..\WebApplication0510API\WebApplicationKinoAPI0510.csproj" />
   </ItemGroup>
 
 </Project>

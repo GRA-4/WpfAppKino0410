@@ -13,7 +13,7 @@ namespace WpfAppKino0410
     /// </summary>
     public partial class TitleDo : Window
     {
-       
+
         User User = Current.cUser;
         WorkWindow Parent;
 
@@ -67,13 +67,14 @@ namespace WpfAppKino0410
             InitializeComponent();
             Parent = parent;
 
-            ViewStackPanel.IsEnabled=false;
+            ViewStackPanel.IsEnabled = false;
 
             DateSlider.Minimum = 1900;
             DateSlider.Maximum = DateTime.Now.Year;
 
             //raskidat polya po elementam
             NewTitle = title;
+            oldTitle = title;
             DataContext = NewTitle;
             LoadGenres();
 
@@ -84,38 +85,46 @@ namespace WpfAppKino0410
 
         public void TitleToFields()
         {
-            if (NewTitle != null)
+            try
             {
-                GenresTextBox.Text = string.Empty;
-                foreach (Genre n in NewTitle.Genres)
+                if (NewTitle != null)
                 {
-                    GenresTextBox.Text += n.GenreName + "  ";
+                    GenresTextBox.Text = string.Empty;
+                    foreach (Genre n in NewTitle.Genres)
+                    {
+                        GenresTextBox.Text += n.GenreName + "  ";
+                    }
+                    DescriptionTextBox.Text = NewTitle.Description;
+                    NameTitleTextBox.Text = NewTitle.TitleName;
+                    DateSlider.Value = (double)NewTitle.Date;
+                    ImageUrlTextBox.Text = NewTitle.ImageUrl;
+                    ImageUrlImage.DataContext = NewTitle;
                 }
-                DescriptionTextBox.Text = NewTitle.Description;
-                NameTitleTextBox.Text = NewTitle.TitleName;
-                DateSlider.Value = (double)NewTitle.Date;
-                ImageUrlTextBox.Text = NewTitle.ImageUrl;
-                ImageUrlImage.DataContext = NewTitle;
+                else
+                {
+                    GenresTextBox.Text = string.Empty;
+                    DescriptionTextBox.Text = string.Empty;
+                    NameTitleTextBox.Text = string.Empty;
+                    DateSlider.Value = DateSlider.Minimum;
+                    ImageUrlTextBox.Text = string.Empty;
+                    ImageUrlImage.DataContext = string.Empty;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                GenresTextBox.Text = string.Empty;
-                DescriptionTextBox.Text = string.Empty;
-                NameTitleTextBox.Text = string.Empty;
-                DateSlider.Value = DateSlider.Minimum;
-                ImageUrlTextBox.Text = string.Empty;
-                ImageUrlImage.DataContext = string.Empty;
+                MessageBox.Show(ex.Message);
             }
         }
+
         public async void LoadGenres()
         {
-            CommonOperations  commonOperations = new CommonOperations();
-           
-                GenresComboBox.ItemsSource = await commonOperations.GetAllAsync<Genre>();
-            
+            CommonOperations commonOperations = new CommonOperations();
+
+            GenresComboBox.ItemsSource = await commonOperations.GetAllAsync<Genre>();
+
 
         }
-        
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -130,14 +139,37 @@ namespace WpfAppKino0410
 
         private async void AddGenre_Click(object sender, RoutedEventArgs e)
         {
-            CommonOperations commonOperations= new CommonOperations();
-            var allGenres = await commonOperations.GetAllAsync<Genre>();
-            var ge = (Genre)GenresComboBox.SelectedItem;
-            if(GenresComboBox.SelectedItem != null)
+            try
             {
-                if ((NewTitle.Genres.FirstOrDefault(g => g.Id == ge.Id)  == null))
+                CommonOperations commonOperations = new CommonOperations();
+                var allGenres = await commonOperations.GetAllAsync<Genre>();
+                var ge = (Genre)GenresComboBox.SelectedItem;
+                if (GenresComboBox.SelectedItem != null)
                 {
-                    NewTitle.Genres.Add(allGenres.FirstOrDefault(g => g.Id == ge.Id));
+                    if ((NewTitle.Genres.FirstOrDefault(g => g.Id == ge.Id) == null))
+                    {
+                        NewTitle.Genres.Add(allGenres.FirstOrDefault(g => g.Id == ge.Id));
+                        GenresTextBox.Text = null;
+                        foreach (Genre n in NewTitle.Genres)
+                        {
+                            GenresTextBox.Text += n.GenreName + "  ";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RemoveGenre_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (NewTitle.Genres.Count > 0)
+                {
+                    NewTitle.Genres.Remove(NewTitle.Genres.Last());
                     GenresTextBox.Text = null;
                     foreach (Genre n in NewTitle.Genres)
                     {
@@ -145,55 +177,77 @@ namespace WpfAppKino0410
                     }
                 }
             }
-        }
-
-        private void RemoveGenre_Click(object sender, RoutedEventArgs e)
-        {
-            if (NewTitle.Genres.Count > 0)
+            catch (Exception ex)
             {
-                NewTitle.Genres.Remove(NewTitle.Genres.Last());
-                GenresTextBox.Text = null;
-                foreach (Genre n in NewTitle.Genres)
-                {
-                    GenresTextBox.Text += n.GenreName + "  ";
-                }
+                MessageBox.Show(ex.Message);
             }
+
         }
 
-        private  async void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private async void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            NewTitle.TitleName = NameTitleTextBox.Text;
-            NewTitle.ImageUrl = ImageUrlTextBox.Text;
-            NewTitle.Description = DescriptionTextBox.Text;
-
-            NewTitle.Date = Convert.ToInt32(DateSlider.Value);
-            
-            if ((NewTitle.TitleName != string.Empty))
+            try
             {
-                if (oldTitle != null)
+                NewTitle.TitleName = NameTitleTextBox.Text;
+                NewTitle.ImageUrl = ImageUrlTextBox.Text;
+                NewTitle.Description = DescriptionTextBox.Text;
+
+                NewTitle.Date = Convert.ToInt32(DateSlider.Value);
+
+                if ((NewTitle.TitleName != string.Empty))
                 {
-                    CommonOperations commonOperations = new CommonOperations();
-                    var l = await commonOperations.UpdateEntityAsync<Title>(NewTitle);
-                    Parent.IsEnabled = true;
-                    this.Close();
+                    if (oldTitle != null)
+                    {
+                        CommonOperations commonOperations = new CommonOperations();
+                        var grs = NewTitle.Genres;
+                        var fff1 = grs.Except(oldTitle.Genres).ToList();
+                        var newnew = new List<Genre>();
+                        foreach(var c in NewTitle.Genres)
+                        {
+                            if (!oldTitle.Genres.Contains(c))
+                            {
+                                newnew.Add(c);
+                            }
+                        }
+
+                        NewTitle.Genres = newnew;
+                        //NewTitle.Genres = null;
+
+                        commonOperations.context.Titles.Update(NewTitle);
+                        commonOperations.context.SaveChanges();
+
+                        //var l = await commonOperations.UpdateEntityAsync<Title>(NewTitle);
+                        NewTitle.Genres = grs;
+
+                        //CommonOperations commonOperations1 = new CommonOperations();
+                        //var saas = await commonOperations1.UpdateEntityAsync<Title>(NewTitle);
+                        Parent.IsEnabled = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        CreateTitle();
+                    }
+
+
+                    //MessageBox.Show(NewTitle.PostId.ToString() + "\t", NewTitle.NameTitle.ToString() + "\t" + NewTitle.Date.ToString());
                 }
                 else
                 {
-                    CreateTitle();
+                    MessageBox.Show("Введите название");
                 }
-
-
-                //MessageBox.Show(NewTitle.PostId.ToString() + "\t", NewTitle.NameTitle.ToString() + "\t" + NewTitle.Date.ToString());
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Введите название");
+                MessageBox.Show(ex.Message);
             }
         }
 
         private async void CreateTitle()
         {
-            CommonOperations commonOperations = new CommonOperations();
+            try
+            {
+CommonOperations commonOperations = new CommonOperations();
             var allGenres = await commonOperations.GetAllAsync<Genre>();
 
             var newList = new List<Genre>();
@@ -206,6 +260,12 @@ namespace WpfAppKino0410
 
             Parent.IsEnabled = true;
             this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
             ////kinoOperations
             //// db.Titles.Add(NewTitle);

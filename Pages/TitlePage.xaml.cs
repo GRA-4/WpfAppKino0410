@@ -29,9 +29,17 @@ namespace WpfAppKino0410.Pages
 
         public async void LoadByName(string query)
         {
-            CommonOperations commonOperations = new CommonOperations();
+            try
+            {
+CommonOperations commonOperations = new CommonOperations();
             _titles = await commonOperations.GetAllByFieldContainsAsync<Title>(t => t.TitleName, query);
             TitleListView.ItemsSource = _titles;
+            }
+            catch
+            {
+
+            }
+            
         }
         public async void Load()
         {

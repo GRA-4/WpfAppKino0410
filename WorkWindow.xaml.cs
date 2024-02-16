@@ -29,7 +29,6 @@ namespace WpfAppKino0410
         public WorkWindow()
         {
             InitializeComponent();
-            BitmapImage bitmapImage = new BitmapImage(new Uri(Current.cUser.ImageUrl));
             MessageBox.Show(Current.cUser.UserName);
             OperationPage = new OperationPage(this);
             OperationFrame.Navigate(OperationPage);
@@ -127,6 +126,7 @@ namespace WpfAppKino0410
                 CommonOperations commonOperations = new CommonOperations();
 
                 var toRemove = await commonOperations.GetByIdAsync<Title>(title.Id);
+                var k = await commonOperations.RemoveEntityAsync<Title>(toRemove);
                 Refresh();
 
             }

@@ -42,6 +42,7 @@ namespace WpfAppKino0410.Pages
                 MessageBox.Show("Слишком много попыток");
                 LoginButton.IsEnabled = false;
             }
+
             else
             {
                 if (userToFind.UserName == null)
